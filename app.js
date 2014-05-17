@@ -110,13 +110,16 @@ app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
+/*
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
+*/
 app.get('/account', passportConf.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConf.isAuthenticated, userController.postUpdateProfile);
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
+/*
 app.get('/api', apiController.getApi);
 app.get('/api/lastfm', apiController.getLastfm);
 app.get('/api/nyt', apiController.getNewYorkTimes);
@@ -139,11 +142,12 @@ app.post('/api/venmo', passportConf.isAuthenticated, passportConf.isAuthorized, 
 app.get('/api/linkedin', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getLinkedin);
 app.get('/api/instagram', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getInstagram);
 app.get('/api/yahoo', apiController.getYahoo);
+*/
 
 /**
  * OAuth routes for sign-in.
  */
-
+/*
 app.get('/auth/instagram', passport.authenticate('instagram'));
 app.get('/auth/instagram/callback', passport.authenticate('instagram', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
@@ -168,11 +172,11 @@ app.get('/auth/linkedin', passport.authenticate('linkedin', { state: 'SOME STATE
 app.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
 });
-
+*/
 /**
  * OAuth routes for API examples that require authorization.
  */
-
+/*
 app.get('/auth/foursquare', passport.authorize('foursquare'));
 app.get('/auth/foursquare/callback', passport.authorize('foursquare', { failureRedirect: '/api' }), function(req, res) {
   res.redirect('/api/foursquare');
@@ -185,7 +189,7 @@ app.get('/auth/venmo', passport.authorize('venmo', { scope: 'make_payments acces
 app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '/api' }), function(req, res) {
   res.redirect('/api/venmo');
 });
-
+*/
 
 /*
 app.get('/chat', function(req, res) {

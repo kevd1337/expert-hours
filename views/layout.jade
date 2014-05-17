@@ -7,7 +7,7 @@ html
     meta(name='description', content='')
     meta(name='csrf-token', content=_csrf)
     meta(name='author', content='')
-    title #{title} | Hackathon Starter
+    title #{title} | Expert Time
     != css('styles')
   body
     include partials/navigation
@@ -15,7 +15,5 @@ html
     .container
       include partials/flash
       block content
-
-    include partials/footer
 
     != js('application')
