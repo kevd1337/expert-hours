@@ -12,7 +12,6 @@ var errorHandler = require('errorhandler');
 var csrf = require('lusca').csrf();
 var methodOverride = require('method-override');
 
-var MongoStore = require('connect-mongo')({ session: session });
 var flash = require('express-flash');
 var path = require('path');
 var mongoose = require('mongoose');
@@ -44,15 +43,6 @@ var passportConf = require('./config/passport');
 
 var app = express();
 
-/**
- * Mongoose configuration.
- */
-
-mongoose.connect(secrets.db);
-mongoose.connection.on('error', function() {
-  console.error('✗ MongoDB Connection Error. Please make sure MongoDB is running.');
-});
-
 var hour = 3600000;
 var day = hour * 24;
 var week = day * 7;
@@ -82,11 +72,7 @@ app.use(expressValidator());
 app.use(methodOverride());
 app.use(cookieParser());
 app.use(session({
-  secret: secrets.sessionSecret,
-  store: new MongoStore({
-    url: secrets.db,
-    auto_reconnect: true
-  })
+  secret: secrets.sessionSecret
 }));
 app.use(passport.initialize());
 app.use(passport.session());
