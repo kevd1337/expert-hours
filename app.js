@@ -19,6 +19,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 var connectAssets = require('connect-assets');
+var ws = require('websocket.io');
+var uuid = require('node-uuid');
 
 /**
  * Load controllers.
@@ -198,6 +200,13 @@ app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '
   res.redirect('/api/venmo');
 });
 
+
+/*
+app.get('/chat', function(req, res) {
+  res.render('chat', { title: 'Expert time | Session' });
+});
+*/
+
 /**
  * 500 Error Handler.
  * As of Express 4.0 it must be placed at the end, after all routes.
@@ -209,8 +218,58 @@ app.use(errorHandler());
  * Start Express server.
  */
 
-app.listen(app.get('port'), function() {
+var server = app.listen(app.get('port'), function() {
   console.log("✔ Express server listening on port %d in %s mode", app.get('port'), app.get('env'));
+});
+
+var io = ws.attach(server);
+io.clientsById = io.clientsById || {};
+io.clientsByRoom = io.clientsByRoom || {};
+console.log('clientsById', io.clientsById);
+console.log('clientsByRoom', io.clientsByRoom);
+
+// Chat-video route
+app.get('/chat/:room', function(req, res) {
+  console.log('room', req.params.room);
+  console.log('req.query', req.query);
+   res.render('chat', {
+    params: req.query,
+    room_count: io.clientsByRoom[req.params.room] != null ? io.clientsByRoom[req.params.room].length : 0
+  });
+});
+
+io.on('connection', function(socket) {
+  var room = /\/(.+)/.exec(socket.req.url)[1];
+  socket.id = uuid.v1();
+  socket.room = room;
+  if (!room) {
+    socket.close();
+    return;
+  }
+  io.clientsByRoom[room] = io.clientsByRoom[room] || [];
+  io.clientsByRoom[room].push(socket);
+  io.clientsById[socket.id] = socket;
+  socket.send(JSON.stringify({
+    type: 'assigned_id',
+    id: socket.id
+  }));
+  return socket.on('message', function(data) {
+    var msg = JSON.parse(data);
+    switch (msg.type) {
+      case 'received_offer':
+      case 'received_candidate':
+      case 'received_answer':
+        for (var i = 0; i < io.clientsByRoom[socket.room]; i++) {
+          sock = io.clientsByRoom[socket.room][i];
+          if (sock.id !== socket.id) {
+            sock.send(JSON.stringify(msg));
+          }
+        }
+        break;
+      case 'close':
+        return socket.close();
+    }
+  });
 });
 
 module.exports = app;
