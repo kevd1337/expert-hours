@@ -46,7 +46,7 @@ block content
     // no room number specified, so create one
     // which makes us the offerer
     if (!ROOM) {
-        ROOM = 'BtX3tuRj';
+        ROOM = id();//'BtX3tuRj';
         type = "offerer";
         otherType = "answerer";
         document.write("<a href='#" + ROOM + "'>Send link to other peer</a>");
