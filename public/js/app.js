@@ -4,6 +4,10 @@ var path = 'ws://' + window.location.host + window.location.pathname;
 console.log('path', path);
 var socket = new WebSocket(path);
 
+socket.onopen = function() {
+  console.log("connection established");
+};
+
 socket.onmessage = function(message) {
   var msg = JSON.parse(message.data);
 
@@ -37,7 +41,9 @@ socket.onmessage = function(message) {
         sdpMLineIndex: msg.data.label,
         candidate: msg.data.candidate
       });
+      console.log('candidate', candidate);
       pc.addIceCandidate(candidate);
+      console.log('pc after add candidate', pc);
       break;
   }
 };
@@ -46,6 +52,7 @@ var pc;
 var configuration = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
 var stream;
 var pc = new webkitRTCPeerConnection(configuration);
+console.log("pc", pc);
 var connected = false;
 var mediaConstraints = {
   'mandatory': {
@@ -81,7 +88,7 @@ function broadcast() {
     vid1.src = webkitURL.createObjectURL(s);
     vid1.play();
     // initCall is set in views/index and is based on if there is another person in the room to connect to
-    if(initCall)
+    //if(initCall)
       start();
   });
 }
