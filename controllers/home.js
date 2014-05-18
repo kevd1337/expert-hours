@@ -8,3 +8,15 @@ exports.index = function(req, res) {
     title: 'Home'
   });
 };
+
+
+/**
+ * GET /profile
+ * Profile.
+ */
+
+exports.profile = function(req, res) {
+  res.render('home', {
+    title: 'Profile'
+  });
+};
