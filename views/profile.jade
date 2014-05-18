@@ -1,0 +1,33 @@
+extends layout
+
+block content
+  .jumbotron
+    .row
+      .col-md-3.text-center
+        p
+          img.img-rounded(src='img/prototype/user1.jpg', style='width: 150px;')
+        p
+          strong Rate
+          | &nbsp; $42/hour
+        a.btn.btn-success.btn-block(href='/chat/BtX3tuRj') 
+          span.fa.fa-comment
+          | &nbsp; Chat Now
+        a.btn.btn-primary.btn-block(href='#') 
+          span.fa.fa-calendar
+          | &nbsp; Schedule Time
+      .col-md-9
+        div 
+          strong(style='font-size: 2em') Vinay Vyas
+        .tags.text-muted
+          span.fa.fa-tags &nbsp; node.js &nbsp;&nbsp;
+          span.fa.fa-tags &nbsp; cloud &nbsp;&nbsp;
+          span.fa.fa-tags &nbsp; CLR &nbsp;&nbsp;
+          span.fa.fa-tags &nbsp; career advice          
+        p I'm an experienced software engineer based in Seattle willing to talk to anyone that wants advice on node.js related projects, as well as undergraduate computer science students looking software engineering related tips or career advice.
+        h2 Office Hours
+        p.lead
+          strong WED &nbsp;
+          |  07:00 - 09:00
+          br
+          strong SUN &nbsp;
+          |  13:00 - 16:00    

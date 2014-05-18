@@ -16,7 +16,7 @@ exports.index = function(req, res) {
  */
 
 exports.profile = function(req, res) {
-  res.render('home', {
+  res.render('profile', {
     title: 'Profile'
   });
 };
