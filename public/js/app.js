@@ -41,9 +41,7 @@ socket.onmessage = function(message) {
         sdpMLineIndex: msg.data.label,
         candidate: msg.data.candidate
       });
-      console.log('candidate', candidate);
       pc.addIceCandidate(candidate);
-      console.log('pc after add candidate', pc);
       break;
   }
 };

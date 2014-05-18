@@ -119,8 +119,6 @@ app.post('/account/profile', passportConf.isAuthenticated, userController.postUp
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
-
-app.get('/profile', homeController.profile);
 /*
 app.get('/api', apiController.getApi);
 app.get('/api/lastfm', apiController.getLastfm);
@@ -212,61 +210,12 @@ app.use(errorHandler());
 
 // Chat-video route
 app.get('/chat/:room', function(req, res) {
-   res.render('chat', {
-    params: req.params,
-    room_count: io.clientsByRoom[req.params.room] != null ? io.clientsByRoom[req.params.room].length : 0
-  });
+   res.render('chat');
 });
 
 
-var server = app.listen(app.get('port'), function() {
+app.listen(app.get('port'), function() {
   console.log("✔ Express server listening on port %d in %s mode", app.get('port'), app.get('env'));
-});
-
-var io = ws.attach(server);
-io.clientsById = io.clientsById || {};
-io.clientsByRoom = io.clientsByRoom || {};
-
-io.on('connection', function(socket) {
-  console.log(socket.req.url);
-  var room = /\/(.+)/.exec(socket.req.url)[1];
-  console.log(room);
-  socket.id = uuid.v1();
-  console.log("socket.id", socket.id);
-  socket.room = room;
-  console.log("socket.room", socket.room);
-  if (!room) {
-    socket.close();
-    return;
-  }
-
-  io.clientsByRoom[room] = io.clientsByRoom[room] || [];
-  io.clientsByRoom[room].push(socket);
-  io.clientsById[socket.id] = socket;
-  socket.send(JSON.stringify({
-    type: 'assigned_id',
-    id: socket.id
-  }));
-
-  socket.on('message', function(data) {
-    var msg = JSON.parse(data);
-    console.log('msg.type', msg.type);
-    switch (msg.type) {
-      case 'received_offer':
-      case 'received_candidate':
-      case 'received_answer':
-        for (var i = 0; i < io.clientsByRoom[socket.room].length; i++) {
-          sock = io.clientsByRoom[socket.room][i];
-          if (sock.id !== socket.id) {
-            msg.type = 'received_offer';
-            sock.send(JSON.stringify(msg));
-          }
-        }
-        break;
-      case 'close':
-        socket.close();
-    }
-  });
 });
 
 module.exports = app;
