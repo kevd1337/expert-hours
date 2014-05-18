@@ -1,8 +1,38 @@
 extends layout
 
 block content
-  h1 Bootstrap starter template
-  p.lead
-    | Use this document as a way to quickly start any new project.
-    br
-    | All you get is this text and a mostly barebones HTML document.
+  .jumbotron
+    h1.text-center It's Expert Time!
+    p 
+      strong Need help? 
+      | Connect with experts to quickly solve domain-specific issues or to get input on projects you are working on. 
+    p
+      strong Got skills? 
+      | Host office hours with clients around the globe, gain reputation, and earn some cash for your time!
+  h1 Consult with Experts
+  .row
+  .col-lg-4
+    img.img-circle(src='img/prototype/user0.jpg', style='width: 200px')
+    h2 Kevin D.
+    p
+      | Dogeillionare &amp; serial hacker with machine learning &amp; front-end web development experience.
+    p
+      a.btn.btn-default(href='#', role='button') Chat / More »
+  //
+     /.col-lg-4 
+  .col-lg-4
+    img.img-circle(src='img/prototype/user1.jpg', style='width: 200px')
+    h2 Vinay V.
+    p
+      | Experienced engineer with deep Node.js &amp; enterprise cloud architecture knowledge.
+    p
+      a.btn.btn-default(href='/profile', role='button') Chat / More »
+  //
+     /.col-lg-4 
+  .col-lg-4
+    img.img-circle(src='img/prototype/user2.jpg', style='width: 200px')
+    h2 Shaq O.
+    p
+      | Four time NBA champion, PhD, serial entrepreneur, sports commentator, rap genius &amp; actor.
+    p
+      a.btn.btn-default(href='#', role='button') Chat / More »
